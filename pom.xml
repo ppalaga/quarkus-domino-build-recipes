@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.quarkus.domino.build-recipes</groupId>
     <artifactId>quarkus-domino-build-recipes</artifactId>
     <version>999-SNAPSHOT</version>
 
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.release>21</maven.compiler.release>
-
-        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>3.15.1</quarkus.platform.version>
+        <maven.compiler.release>17</maven.compiler.release>
 
         <!-- Plugin Versions-->
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
@@ -29,18 +23,17 @@
         <kubernetes-client.version>6.13.5</kubernetes-client.version>
 
         <!-- Dependencies -->
+        <jgit.version>7.0.0.202409031743-r</jgit.version>
+        <junit.version>5.13.4</junit.version>
+        <jboss-logging.version>3.6.0.Final</jboss-logging.version>
+
         <asm.version>9.7.1</asm.version>
         <assertj.version>3.26.3</assertj.version>
-        <gradle-tooling-api.version>8.11.1</gradle-tooling-api.version>
         <maven-indexer.version>7.1.5</maven-indexer.version>
         <maven-resolver.version>1.9.22</maven-resolver.version>
         <maven-release.version>3.1.1</maven-release.version>
-        <quarkus-jgit.version>3.3.3</quarkus-jgit.version>
         <!-- QuarkusGitHub extension uses same version as GitHubAPI -->
         <github-api.version>1.322</github-api.version>
-        <quarkus-github-api.version>${github-api.version}.0</quarkus-github-api.version>
-        <quarkus-github-app.version>2.8.1</quarkus-github-app.version>
-        <quarkus-quinoa.version>2.5.1</quarkus-quinoa.version>
 
         <format.skip>false</format.skip>
 
@@ -51,36 +44,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>${quarkus.platform.group-id}</groupId>
-                <artifactId>quarkus-bom</artifactId>
-                <version>${quarkus.platform.version}</version>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>hacbs-build-analyser</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>hacbs-classfile-tracker</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>common-images</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>hacbs-operator</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>hacbs-resource-model</artifactId>
-                <version>${project.version}</version>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>${jboss-logging.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
@@ -89,191 +63,51 @@
             </dependency>
             <dependency>
                 <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>hacbs-cache</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>hacbs-cache</artifactId>
-                <type>test-jar</type>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>common-tools</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
                 <artifactId>common-maven</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.github.redhat-appstudio.jvmbuild</groupId>
-                <artifactId>driver</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
             <dependency>
-                <groupId>io.quarkiverse.quinoa</groupId>
-                <artifactId>quarkus-quinoa</artifactId>
-                <version>${quarkus-quinoa.version}</version>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>2.17.2</version>
             </dependency>
             <dependency>
-                <groupId>io.quarkiverse.githubapp</groupId>
-                <artifactId>quarkus-github-app</artifactId>
-                <version>${quarkus-github-app.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.quarkiverse.jgit</groupId>
-                <artifactId>quarkus-jgit</artifactId>
-                <version>${quarkus-jgit.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.gradle</groupId>
-                <artifactId>gradle-tooling-api</artifactId>
-                <version>${gradle-tooling-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.githubapi</groupId>
-                <artifactId>quarkus-github-api</artifactId>
-                <version>${quarkus-github-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.openapi.generator</groupId>
-                <artifactId>quarkus-openapi-generator</artifactId>
-                <version>2.4.7</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.mavenresolver</groupId>
-                <artifactId>quarkus-maven-resolver</artifactId>
-                <version>0.0.5</version>
-            </dependency>
-            <dependency>
-                <groupId>io.quarkiverse.tektonclient</groupId>
-                <artifactId>quarkus-tekton-client</artifactId>
-                <version>1.0.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.pnc</groupId>
-                <artifactId>konflux-build-driver</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.pnc</groupId>
-                <artifactId>pnc-api</artifactId>
-                <version>3.0.6-SNAPSHOT</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.maven.release</groupId>
-                <artifactId>maven-release-manager</artifactId>
-                <version>${maven-release.version}</version>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.14</version>
                 <exclusions>
                     <exclusion>
-                        <groupId>org.apache.maven.scm</groupId>
+                        <groupId>commons-logging</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.apache.maven.release</groupId>
-                <artifactId>maven-release-api</artifactId>
-                <version>${maven-release.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.maven.scm</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-artifact</artifactId>
+                <version>3.9.8</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.maven.indexer</groupId>
-                <artifactId>indexer-core</artifactId>
-                <version>${maven-indexer.version}</version>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-model</artifactId>
+                <version>3.9.8</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jgit</groupId>
+                <artifactId>org.eclipse.jgit</artifactId>
+                <version>${jgit.version}</version>
             </dependency>
 
-            <!-- Resolver version should be same as inside Quarkus https://github.com/quarkusio/quarkus/blob/main/independent-projects/bootstrap/pom.xml#L48 -->
-            <dependency>
-                <groupId>org.apache.maven.resolver</groupId>
-                <artifactId>maven-resolver-transport-file</artifactId>
-                <version>${maven-resolver.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven.resolver</groupId>
-                <artifactId>maven-resolver-transport-http</artifactId>
-                <version>${maven-resolver.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.ow2.asm</groupId>
-                <artifactId>asm-bom</artifactId>
-                <version>${asm.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>${assertj.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-text</artifactId>
                 <version>1.12.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.ant</groupId>
-                <artifactId>ant</artifactId>
-                <version>1.10.15</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.ivy</groupId>
-                <artifactId>ivy</artifactId>
-                <version>2.5.3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.gitlab4j</groupId>
-                <artifactId>gitlab4j-api</artifactId>
-                <version>6.0.0-rc.8</version>
-            </dependency>
-            <dependency>
-                <groupId>org.kohsuke</groupId>
-                <artifactId>github-api</artifactId>
-                <version>${github-api.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>info.picocli</groupId>
-                <artifactId>picocli-shell-jline2</artifactId>
-                <version>4.7.6</version>
-            </dependency>
-            <dependency>
-                <groupId>org.commonjava.maven.ext</groupId>
-                <artifactId>pom-manipulation-common</artifactId>
-                <version>4.19</version>
-                <!-- As we only want the immediate dependency and some of the transitives cause -->
-                <!-- clashes then exclude everything for simplicity -->
-                <exclusions>
-                    <exclusion>
-                        <groupId>*</groupId>
-                        <artifactId>*</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.stefanbirkner</groupId>
-                <artifactId>system-lambda</artifactId>
-                <version>1.2.1</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.wiremock</groupId>
-                <artifactId>wiremock</artifactId>
-                <version>3.10.0</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -300,8 +134,8 @@
             <artifactId>commons-text</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.quarkiverse.jgit</groupId>
-            <artifactId>quarkus-jgit</artifactId>
+            <groupId>org.eclipse.jgit</groupId>
+            <artifactId>org.eclipse.jgit</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -321,7 +155,8 @@
                 <version>${surefire-plugin.version}</version>
                 <configuration>
                     <systemPropertyVariables>
-                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                        <java.util.logging.manager>
+                            org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
                 </configuration>
